@@ -1,0 +1,3 @@
+[submodule "src/hydro"]
+	path = src/hydro
+	url = git@github.com:scrasmussen/wrf_hydro_nwm_public.git
