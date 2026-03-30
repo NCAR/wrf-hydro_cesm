@@ -40,7 +40,6 @@ $ ./lilac/build_ctsm --machine derecho --compiler gnu /glade/derecho/scratch/${U
 |       | The project describes it as the infrastructure layer that provides  |
 |       | a Case Control System for configuring, compiling, and running Earth |
 |       | system models, along with a framework for system testing.           |
-|-------|---------------------------------------------------------------------|
 | LILAC | Lightweight Infrastructure for Land-Atmosphere Coupling:            |
 |       | lightweight coupling layer built on top of ESMF so atmosphere       |
 |       | models can call CTSM directly and a set of Python-based tools for   |
