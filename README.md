@@ -35,7 +35,7 @@ $ ./lilac/build_ctsm --machine derecho --compiler gnu /glade/derecho/scratch/${U
 
 
 ## Definitions
-|-------|---------------------------------------------------------------------|
+
 | CIME  | Common Infrastructure for Modeling the Earth:                       |
 |       | The project describes it as the infrastructure layer that provides  |
 |       | a Case Control System for configuring, compiling, and running Earth |
@@ -45,5 +45,3 @@ $ ./lilac/build_ctsm --machine derecho --compiler gnu /glade/derecho/scratch/${U
 |       | lightweight coupling layer built on top of ESMF so atmosphere       |
 |       | models can call CTSM directly and a set of Python-based tools for   |
 |       | building CTSM and creating its runtime inputs in that coupling mode |
-|-------|---------------------------------------------------------------------|
-|       |                                                                     |
