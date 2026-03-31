@@ -1,0 +1,32 @@
+application:
+  exe_name: ctsm_hydro
+  # link_module_paths:
+  # cmake_build_args: -DCMAKE_PREFIX_PATH=/glade/u/apps/derecho/25.10/spack/opt/spack/parallelio/2.6.8/cray-mpich/8.1.32/gcc/14.3.0/xbsd
+  disable_comps: ESMX_Data
+  link_libraries: pioc,piof,mpi
+  # 2.6.8
+  link_paths: /opt/cray/pe/mpich/8.1.32/ofi/gnu/12.3/lib,/glade/u/apps/derecho/25.10/spack/opt/spack/parallelio/2.6.6/cray-mpich/8.1.32/gcc/14.3.0/ifmq/lib
+
+components:
+  # wrfhydro_ctsm_nuopc:
+  #   source_dir: src/hydro
+  #   build_type: cmake
+    # application:
+#   cmake_build_args: -DWRF_HYDRO_CTSM_NUOPC=ON -D-DWRF_HYDRO_NUOPC=1
+#   #-DCMAKE_EXE_LINKER_FLAGS="-lpiof"
+#   # link_paths: /glade/work/soren/src/ctsm/wrf-hydro_ctsm/build/wrfhydro_ctsm_nuopc/hydro/mods/
+#   exe_name: hydro
+
+  datm:
+    include_dir: /SDLKJFLKSDJFKLJSDKLFJLSKAFKJNCLVSIVNESLIVNSLD
+    build_type: none
+    install_prefix: /glade/derecho/scratch/soren/ctsm_build_dir/case/bld/gnu/mpich/nodebug/nothreads/lib/
+    libraries: datm dshr streams csm_share gptl FoX_dom FoX_sax FoX_fsys FoX_utils FoX_common FoX_fsys
+    fort_module: atm_comp_nuopc
+    link_module_paths:
+      - /opt/cray/pe/mpich/8.1.32/ofi/gnu/12.3/include
+      - /glade/derecho/scratch/soren/ctsm_build_dir/case/bld/gnu/mpich/nodebug/nothreads/CDEPS/datm
+      - /glade/derecho/scratch/soren/ctsm_build_dir/case/bld/gnu/mpich/nodebug/nothreads/lib/
+      - /glade/u/apps/derecho/25.10/spack/opt/spack/parallelio/2.6.8/cray-mpich/8.1.32/gcc/14.3.0/xbsd/lib
+    include_dir:
+      - /glade/u/apps/derecho/25.10/spack/opt/spack/parallelio/2.6.8/cray-mpich/8.1.32/gcc/14.3.0/xbsd/lib
