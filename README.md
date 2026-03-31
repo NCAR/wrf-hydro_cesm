@@ -8,7 +8,7 @@ The coupling mechanism uses [Earth System Modeling Framework](https://earthsyste
 Load appropriate set of modules, the following are for building with GNU.
 ```bash
 $ ml purge
-$ ml ncarenv/25.10 gcc/14.3.0 cmake/3.31.8  hdf5/1.14.6 netcdf/4.9.3 esmf/8.9.0 cray-mpich/8.1.32
+$ ml ncarenv/25.10 gcc/14.3.0 cmake/3.31.8  hdf5/1.14.6 netcdf/4.9.3 esmf/8.9.0 cray-mpich/8.1.32 parallelio/2.6.6
 
 NOTE: esmf/8.9.1 currently is unable to load an MPI implementation
 ```

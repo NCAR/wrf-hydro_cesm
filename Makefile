@@ -5,15 +5,14 @@ np=4
 all: build
 
 build:
-	WRF_HYDRO_CTSM_NUOPC=ON \
-	FFLAGS=-I/glade/derecho/scratch/soren/ctsm_build_dir/case/bld/gnu/mpich/nodebug/nothreads/CDEPS/datm
-	- ESMX_Builder --verbose --build-jobs=$(np) --build-type=Debug \
-         --cmake-args=-DCMAKE_Fortran_FLAGS=-I/glade/derecho/scratch/soren/ctsm_build_dir/case/bld/gnu/mpich/nodebug/nothreads/CDEPS/datm
-	bash ./hack_build_exe.sh
-	cp build/ctsm_hydro .
+	WRF_HYDRO_CTSM_NUOPC=ON ESMX_Builder --verbose --build-jobs=$(np) --build-type=Debug \
+          --cmake-args=-DCMAKE_Fortran_FLAGS=-I/glade/derecho/scratch/soren/ctsm_build_dir/case/bld/gnu/mpich/nodebug/nothreads/CDEPS/datm
+	# THIS CMAKE-ARGS MADE DATM WORK when disable_comps: ESMX_Data in .yaml
+	# bash ./hack_build_exe.sh
+	# cp build/ctsm_hydro .
 
 clean:
-	rm -rf build/ install/*
+	rm -rf build/ install/* ctsm_hydro
 
 	# PIO=${NCAR_ROOT_PARALLELIO} \
 	# PnetCDF_ROOT=${NCAR_ROOT_PARALLEL_NETCDF} \
