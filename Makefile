@@ -1,5 +1,5 @@
-dir=$SCRATCH/cases/hydro-test
-runblddir=$SCRATCH/hydro-test
+dir=$(SCRATCH)/cases/hydro-test2
+runblddir=$(SCRATCH)/hydro-test2
 
 compiler=intel
 compiler=gnu
@@ -12,15 +12,15 @@ help:
 setup:
 	cd src/ctsm/cime/scripts/ && \
 	./create_newcase \
-	  --case $(dir)-wrfh \
+	  --case $(dir) \
 	  --mach derecho \
 	  --compiler $(compiler) \
 	  --compset I2000Ctsm50NwpSpNldasWRFHydro \
 	  --res nldas2_rnldas2_mnldas2 \
 	  --run-unsupported \
 	  --project NWCA0002 \
-	  --pesfile src/ctsm/ctsm_repo/components/wrfhydro/src/CPL/CESM_cpl/cime_config/config_pes.xml
-	cd $(dir)-wrfh && \
+	  --pesfile $(PWD)/src/ctsm/components/wrfhydro/src/CPL/CESM_cpl/cime_config/config_pes.xml
+	cd $(dir) && \
 	./xmlchange STOP_OPTION=nhours,STOP_N=1,ROF_NCPL=24 && \
 	./case.setup
 
@@ -34,7 +34,7 @@ setup-first-recommended:
 	  --compset I2000Ctsm50NwpSpNldas \
 	  --res nldas2_rnldas2_mnldas2 \
 	  --project NWCA0002 \
-	  --pesfile src/ctsm/ctsm_repo/components/wrfhydro/src/CPL/CESM_cpl/cime_config/config_pes.xml
+	  --pesfile $(PWD)/src/ctsm/ctsm_repo/components/wrfhydro/src/CPL/CESM_cpl/cime_config/config_pes.xml
 	cd $(dir) && \
 	./xmlchange STOP_OPTION=nhours,STOP_N=1,ROF_NCPL=24 && \
 	./case.setup
@@ -42,7 +42,8 @@ setup-first-recommended:
 preview:
 	cd $(dir) && ./preview_namelists
 build:
-	cd $(dir) ; ./case.build --verbose
+	@echo "Build won't work from Makefile, copy and paste this command"
+	@echo "$$ cd $(dir) ; ./case.build --verbose"
 run:
 	cd $(dir) && \
 	./case.submit
