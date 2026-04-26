@@ -1,19 +1,57 @@
-np=4
+dir=$SCRATCH/cases/hydro-test
+runblddir=$SCRATCH/hydro-test
 
-.PHONY: build
+compiler=intel
+compiler=gnu
 
-all: build
+all: setup
 
+help:
+	cd src/ctsm/cime/scripts/ && \
+	./create_newcase --help
+setup:
+	cd src/ctsm/cime/scripts/ && \
+	./create_newcase \
+	  --case $(dir)-wrfh \
+	  --mach derecho \
+	  --compiler $(compiler) \
+	  --compset I2000Ctsm50NwpSpNldasWRFHydro \
+	  --res nldas2_rnldas2_mnldas2 \
+	  --run-unsupported \
+	  --project NWCA0002 \
+	  --pesfile src/ctsm/ctsm_repo/components/wrfhydro/src/CPL/CESM_cpl/cime_config/config_pes.xml
+	cd $(dir)-wrfh && \
+	./xmlchange STOP_OPTION=nhours,STOP_N=1,ROF_NCPL=24 && \
+	./case.setup
+
+# first case, was recommended
+setup-first-recommended:
+	cd src/ctsm/cime/scripts/ && \
+	./create_newcase \
+	  --case $(dir) \
+	  --mach derecho \
+	  --compiler $(compiler) \
+	  --compset I2000Ctsm50NwpSpNldas \
+	  --res nldas2_rnldas2_mnldas2 \
+	  --project NWCA0002 \
+	  --pesfile src/ctsm/ctsm_repo/components/wrfhydro/src/CPL/CESM_cpl/cime_config/config_pes.xml
+	cd $(dir) && \
+	./xmlchange STOP_OPTION=nhours,STOP_N=1,ROF_NCPL=24 && \
+	./case.setup
+
+preview:
+	cd $(dir) && ./preview_namelists
 build:
-	WRF_HYDRO_CTSM_NUOPC=ON ESMX_Builder --verbose --build-jobs=$(np) --build-type=Debug \
-          --cmake-args=-DCMAKE_Fortran_FLAGS=-I/glade/derecho/scratch/soren/ctsm_build_dir/case/bld/gnu/mpich/nodebug/nothreads/CDEPS/datm
-	# THIS CMAKE-ARGS MADE DATM WORK when disable_comps: ESMX_Data in .yaml
-	# bash ./hack_build_exe.sh
-	# cp build/ctsm_hydro .
+	cd $(dir) ; ./case.build --verbose
+run:
+	cd $(dir) && \
+	./case.submit
+ls:
+	ls $(dir)
+info:
+	@echo "--- wrfhydro ---"
+	./src/ctsm/cime/scripts/query_config --compsets | grep WRFHydro
+	./src/ctsm/cime/scripts/query_config --grids | egrep 'wrfhydro'
 
 clean:
-	rm -rf build/ install/* ctsm_hydro
-
-	# PIO=${NCAR_ROOT_PARALLELIO} \
-	# PnetCDF_ROOT=${NCAR_ROOT_PARALLEL_NETCDF} \
-	# PnetCDF_MODULE_DIR=${NCAR_ROOT_PARALLEL_NETCDF}/include
+	rm -rf $(dir) $(testdir) $(runblddir)

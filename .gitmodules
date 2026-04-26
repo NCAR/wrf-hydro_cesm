@@ -1,0 +1,4 @@
+[submodule "src/ctsm"]
+	path = src/ctsm
+	url = git@github.com:scrasmussen/CTSM.git
+	branch = wrf-hydro-cesm

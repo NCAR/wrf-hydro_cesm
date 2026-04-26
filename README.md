@@ -8,32 +8,65 @@ The coupling mechanism uses [Earth System Modeling Framework](https://earthsyste
 Load appropriate set of modules, the following are for building with GNU.
 ```bash
 $ ml purge
-$ ml ncarenv/25.10 gcc/14.3.0 cmake/3.31.8  hdf5/1.14.6 netcdf/4.9.3 esmf/8.9.0 cray-mpich/8.1.32 parallelio/2.6.6
-
-NOTE: esmf/8.9.1 currently is unable to load an MPI implementation
+$ ml ncarenv/25.10 ncarenv-basic/25.10 gcc/14.3.0  cray-libsci/25.03.0
+     cray-mpich/8.1.32 netcdf-mpi/4.9.3 parallel-netcdf/1.14.1
+     parallelio/2.6.8 esmf-mpi/8.9.1
 ```
 
-## Obtain Source
+## Setup Source
 ```bash
-$ git clone --recursive-submodule git@github.com:NCAR/wrf-hydro_ctsm.git
-$ git clone --recursive-submodule git@github.com:scrasmussen/ctsm.git
-$ cd wrf-hydro_ctsm
-$ ln -s $(pwd)/../ctsm src/ctsm_src
-```
-
-## Build
-MPAS-Hydro couples using the ESMX infrastructure.
-Note, the build instructions are specific to Derecho at the current moment.
-
-### CTSM Lilac Build
-/glade/work/felfelan/CTSM/cases/ctsm_wrfhydro/README.FF
-```bash
-$ cd scr/ctsm_src
+$ cd src/ctsm
 $ ./bin/git-fleximod update
 $ git submodule update --init --recursive
-$ ./lilac/build_ctsm --machine derecho --compiler gnu /glade/derecho/scratch/${USER}/ctsm_build_dir
+
+# Fleximod uses tags, do the following to get developement branches
+$ cd ccs_config && git remote add wrfhydro git@github.com:scrasmussen/ccs_config_cesm.git
+$ git fetch wrfhydro && git checkout wrf-hydro-cesm && cd ..
+
+$ cd cime && git remote add wrfhydro git@github.com:scrasmussen/cime.git
+$ git fetch wrfhydro && git checkout wrf-hydro-cesm && cd ..
+
+$ cd cime && git remote add wrfhydro git@github.com:scrasmussen/cime.git
+$ git fetch wrfhydro && git checkout wrf-hydro-cesm && cd ..
+
+$ cd components/wrfhydro && git checkout wrf-hydro-cesm && cd ../..
 ```
 
+## Setup, Build, Run
+### Setup
+```bash
+$ dir=$SCRATCH/cases/hydro-test
+$ cd cime/scripts/ && \
+$ ./create_newcase \
+   --case $(dir)-wrfh \
+   --mach derecho \
+   --compiler gnu \
+   --compset I2000Ctsm50NwpSpNldasWRFHydro \
+   --res nldas2_rnldas2_mnldas2 \
+   --run-unsupported \
+   --project NWCA0002 \
+   --pesfile src/ctsm/ctsm_repo/components/wrfhydro/src/CPL/CESM_cpl/cime_config/config_pes.xml
+$ cd $(dir)-wrfh && \
+   ./xmlchange STOP_OPTION=nhours,STOP_N=1,ROF_NCPL=24 && \
+   ./case.setup
+```
+
+### Build
+```bash
+$ dir=$SCRATCH/cases/hydro-test
+$ cd $(dir)
+$ ./case.build --verbose
+
+# preview testcase
+$ ./preview_namelists
+$ ./preview_run
+```
+
+### Run
+```bash
+$ dir=$SCRATCH/cases/hydro-test
+$ ./case.submit
+```
 
 ## Definitions
 
