@@ -38,7 +38,7 @@ $ cd components/wrfhydro && git checkout wrf-hydro-cesm && cd ../..
 $ dir=$SCRATCH/cases/hydro-test
 $ cd cime/scripts/ && \
 $ ./create_newcase \
-   --case $(dir)-wrfh \
+   --case $(dir) \
    --mach derecho \
    --compiler gnu \
    --compset I2000Ctsm50NwpSpNldasWRFHydro \
@@ -46,7 +46,7 @@ $ ./create_newcase \
    --run-unsupported \
    --project NWCA0002 \
    --pesfile src/ctsm/ctsm_repo/components/wrfhydro/src/CPL/CESM_cpl/cime_config/config_pes.xml
-$ cd $(dir)-wrfh && \
+$ cd $(dir) && \
    ./xmlchange STOP_OPTION=nhours,STOP_N=1,ROF_NCPL=24 && \
    ./case.setup
 ```
