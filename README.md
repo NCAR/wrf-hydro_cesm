@@ -4,7 +4,8 @@ The coupling mechanism uses [Earth System Modeling Framework](https://earthsyste
 (ESMF) and the [National Unified Operational Prediction Capability](https://earthsystemmodeling.org/nuopc)
 (NUOPC) interoperability layer, also reffered to as a cap.
 
-## Prerequisite Derecho Modules
+## Prerequisites
+### Load Derecho Modules
 Load appropriate set of modules, the following are for building with GNU.
 ```bash
 $ ml purge
@@ -13,7 +14,7 @@ $ ml ncarenv/25.10 ncarenv-basic/25.10 gcc/14.3.0  cray-libsci/25.03.0
      parallelio/2.6.8 esmf-mpi/8.9.1
 ```
 
-## Setup Source
+### Setup Source
 ```bash
 $ cd src/ctsm
 $ ./bin/git-fleximod update
