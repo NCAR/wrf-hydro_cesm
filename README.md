@@ -11,20 +11,25 @@ Load appropriate set of modules, the following are for building with GNU.
 $ ml purge
 $ ml ncarenv/25.10 ncarenv-basic/25.10 gcc/14.3.0  cray-libsci/25.03.0
      cray-mpich/8.1.32 netcdf-mpi/4.9.3 parallel-netcdf/1.14.1
-     parallelio/2.6.8 esmf-mpi/8.9.1
+     parallelio/2.6.8 esmf-mpi/8.9.1 conda/latest
+
+$ conda activate npl
+
 ```
 
 ### Setup Source
 ```bash
-$ cd src/ctsm
-$ ./bin/git-fleximod update
+
+$ git clone --origin upstream git@github.com:NCAR/wrf-hydro_cesm.git ctsm_wrfhydro
 $ git submodule update --init --recursive
+
+$ cd src/ctsm
+
+$ ./bin/git-fleximod update
+
 
 # Fleximod uses tags, do the following to get developement branches
 $ cd ccs_config && git remote add wrfhydro git@github.com:scrasmussen/ccs_config_cesm.git
-$ git fetch wrfhydro && git checkout wrf-hydro-cesm && cd ..
-
-$ cd cime && git remote add wrfhydro git@github.com:scrasmussen/cime.git
 $ git fetch wrfhydro && git checkout wrf-hydro-cesm && cd ..
 
 $ cd cime && git remote add wrfhydro git@github.com:scrasmussen/cime.git
@@ -36,17 +41,18 @@ $ cd components/wrfhydro && git checkout wrf-hydro-cesm && cd ../..
 ## Setup, Build, Run
 ### Setup
 ```bash
-$ dir=$SCRATCH/cases/hydro-test
+$ export SCRATCH=/glade/derecho/scratch/$USER
+$ export dir=$SCRATCH/cases/hydro-test
 $ cd cime/scripts/ && \
 $ ./create_newcase \
-   --case $(dir) \
+   --case $dir \
    --mach derecho \
    --compiler gnu \
    --compset I2000Ctsm50NwpSpNldasWRFHydro \
    --res nldas2_rnldas2_mnldas2 \
    --run-unsupported \
    --project NWCA0002 \
-   --pesfile src/ctsm/ctsm_repo/components/wrfhydro/src/CPL/CESM_cpl/cime_config/config_pes.xml
+   --pesfile ../../components/wrfhydro/src/CPL/CESM_cpl/cime_config/config_pes.xml
 $ cd $(dir) && \
    ./xmlchange STOP_OPTION=nhours,STOP_N=1,ROF_NCPL=24 && \
    ./case.setup
