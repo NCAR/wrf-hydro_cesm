@@ -1,7 +1,7 @@
-dir=$(SCRATCH)/cases/hydro-test2
-runblddir=$(SCRATCH)/hydro-test2
+dir=$(SCRATCH)/cases/hydro-test
+runblddir=$(SCRATCH)/hydro-test
 
-compiler=intel
+# compiler=intel
 compiler=gnu
 
 all: setup

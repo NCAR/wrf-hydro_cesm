@@ -6,12 +6,11 @@ The coupling mechanism uses [Earth System Modeling Framework](https://earthsyste
 
 ## Prerequisites
 ### Load Derecho Modules
-Load appropriate set of modules, the following are for building with GNU.
+Load appropriate set of modules, the following is for building with GNU on Derecho.
 ```bash
+$ ml use modules
 $ ml purge
-$ ml ncarenv/25.10 ncarenv-basic/25.10 gcc/14.3.0  cray-libsci/25.03.0
-     cray-mpich/8.1.32 netcdf-mpi/4.9.3 parallel-netcdf/1.14.1
-     parallelio/2.6.8 esmf-mpi/8.9.1
+$ ml gnu-cesm
 ```
 
 ### Obtain Source
