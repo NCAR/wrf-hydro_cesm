@@ -14,23 +14,17 @@ $ ml ncarenv/25.10 ncarenv-basic/25.10 gcc/14.3.0  cray-libsci/25.03.0
      parallelio/2.6.8 esmf-mpi/8.9.1
 ```
 
-### Setup Source
+### Obtain Source
+Note, do not do `--recursive` when initiliazing the CTSM submodule.
+CTSM uses git-fleximod to handle its submodules and initializing
+  recursively with `git` will cause problems.
+
 ```bash
+$ git clone git@github.com:NCAR/wrf-hydro_cesm.git
+$ cd wrf-hydro_cesm
+$ git submodule update --init
 $ cd src/ctsm
 $ ./bin/git-fleximod update
-$ git submodule update --init --recursive
-
-# Fleximod uses tags, do the following to get developement branches
-$ cd ccs_config && git remote add wrfhydro git@github.com:scrasmussen/ccs_config_cesm.git
-$ git fetch wrfhydro && git checkout wrf-hydro-cesm && cd ..
-
-$ cd cime && git remote add wrfhydro git@github.com:scrasmussen/cime.git
-$ git fetch wrfhydro && git checkout wrf-hydro-cesm && cd ..
-
-$ cd cime && git remote add wrfhydro git@github.com:scrasmussen/cime.git
-$ git fetch wrfhydro && git checkout wrf-hydro-cesm && cd ..
-
-$ cd components/wrfhydro && git checkout wrf-hydro-cesm && cd ../..
 ```
 
 ## Setup, Build, Run
