@@ -14,5 +14,8 @@ load("parallel-netcdf/1.14.1")
 load("parallelio/2.6.8")
 load("esmf-mpi/8.9.1")
 load("gptl/8.1.1")
+load("conda/latest")
 
-setenv("CMAKE_Platform","derecho.gnu")
+-- activate conda environment npl
+source_sh("bash", "/glade/u/apps/opt/miniforge/25.11/etc/profile.d/conda.sh")
+source_sh("bash", "/glade/u/apps/opt/miniforge/25.11/bin/activate npl")
