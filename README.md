@@ -60,6 +60,8 @@ $ ./preview_run
 ```bash
 $ dir=$SCRATCH/cases/hydro-test
 $ ./case.submit
+or run interactively
+$ ./case.submit --no-batch
 ```
 
 
