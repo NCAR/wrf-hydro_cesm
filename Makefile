@@ -24,6 +24,25 @@ setup:
 	./xmlchange STOP_OPTION=nhours,STOP_N=1,ROF_NCPL=24 && \
 	./case.setup
 
+preview:
+	cd $(dir) && ./preview_namelists
+
+build:
+	@echo "Build won't work from Makefile, copy and paste this command"
+	@echo "$$ cd $(dir) ; ./case.build --verbose"
+
+run:
+	cd $(dir) && \
+	./case.submit
+
+ls:
+	ls $(dir)
+
+info:
+	@echo "--- wrfhydro ---"
+	./src/ctsm/cime/scripts/query_config --compsets | grep WRFHydro
+	./src/ctsm/cime/scripts/query_config --grids | egrep 'wrfhydro'
+
 # first case, was recommended
 setup-first-recommended:
 	cd src/ctsm/cime/scripts/ && \
@@ -38,21 +57,6 @@ setup-first-recommended:
 	cd $(dir) && \
 	./xmlchange STOP_OPTION=nhours,STOP_N=1,ROF_NCPL=24 && \
 	./case.setup
-
-preview:
-	cd $(dir) && ./preview_namelists
-build:
-	@echo "Build won't work from Makefile, copy and paste this command"
-	@echo "$$ cd $(dir) ; ./case.build --verbose"
-run:
-	cd $(dir) && \
-	./case.submit
-ls:
-	ls $(dir)
-info:
-	@echo "--- wrfhydro ---"
-	./src/ctsm/cime/scripts/query_config --compsets | grep WRFHydro
-	./src/ctsm/cime/scripts/query_config --grids | egrep 'wrfhydro'
 
 clean:
 	rm -rf $(dir) $(testdir) $(runblddir)

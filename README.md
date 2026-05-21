@@ -27,6 +27,20 @@ $ ./bin/git-fleximod update
 ```
 
 ## Setup, Build, Run
+### Quick Start
+The `Quick Start` instructions shows how the `Makefile` is used condense the
+  steps for setup, building, and running.
+```bash
+Load modules, then
+$ make setup
+$ make preview
+$ make build
+  Build won't work from Makefile, copy and paste this command
+  cd path/to/build ; ./case.build --verbose
+$ make run
+```
+
+
 ### Setup
 ```bash
 $ dir=$SCRATCH/cases/hydro-test
