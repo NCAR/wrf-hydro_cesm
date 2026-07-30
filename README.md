@@ -26,6 +26,16 @@ $ cd src/ctsm
 $ ./bin/git-fleximod update
 ```
 
+### Updating CESM Source
+It is good to check the status before updating CESM
+```bash
+from the top wrf-hydro_cesm directory
+$ git pull
+$ cd src/ctsm
+$ ./bin/git-fleximod status
+$ ./bin/git-fleximod update
+```
+
 ## Setup, Build, Run
 ### Quick Start
 The `Quick Start` instructions shows how the `Makefile` is used condense the
@@ -40,6 +50,22 @@ $ make build
 $ make run
 ```
 
+### First run to create geo_em.d01.nc
+The first run needs WRF-Hydro to run with 1 process, then it will need to be restarted.
+This will be changed in the future so no restart is needed and any number of processes can be used.
+
+```bash
+  cd /glade/derecho/scratch/soren/cases/hydro-test
+  ./xmlchange NTASKS_ROF=1
+  ./case.setup --reset
+  ./xmlquery NTASKS_ROF
+  ./case.submit
+
+  The full job can still use eight PETs; only WRF-Hydro runs on PET0. After run/DOMAIN/geo_em.d01.nc exists, restore it with:
+
+  ./xmlchange NTASKS_ROF=8
+  ./case.setup --reset
+```
 
 ### Setup
 ```bash
