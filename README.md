@@ -1,5 +1,5 @@
 # WRF-Hydro CTSM Coupling
-MPAS-Hydro CTSM Coupling is a coupling of [WRF-Hydro](https://github.com/NCAR/wrf_hydro_nwm_public) and [CTSM](github.com/ESCOMP/CTSM)
+MPAS-Hydro CTSM Coupling is a coupling of [WRF-Hydro](https://github.com/NCAR/wrf_hydro_nwm_public) and [CTSM](https://github.com/ESCOMP/CTSM)
 The coupling mechanism uses [Earth System Modeling Framework](https://earthsystemmodeling.org/)
 (ESMF) and the [National Unified Operational Prediction Capability](https://earthsystemmodeling.org/nuopc)
 (NUOPC) interoperability layer, also reffered to as a cap.
