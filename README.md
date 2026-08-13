@@ -187,3 +187,86 @@ src/
 |           | lightweight coupling layer built on top of ESMF so atmosphere       |
 |           | models can call CTSM directly and a set of Python-based tools for   |
 |           | building CTSM and creating its runtime inputs in that coupling mode |
+
+# Import/Export Variables
+
+## WRF-Hydro
+```mermaid
+graph LR
+    subgraph import_state["NUOPC import state"]
+        direction TB
+        import_smc["smc<br/>smc1, smc2, smc3, smc4"]
+        import_sh2ox["slc<br/>sh2ox1, sh2ox2, sh2ox3, sh2ox4"]
+        import_stc["stc<br/>stc1, stc2, stc3, stc4"]
+        import_infxsrt["infxsrt"]
+        import_soldrain["soldrain"]
+    end
+
+    subgraph wrf_hydro["WRF-Hydro"]
+        direction TB
+        smc["rt_domain(did)%smc(:,:,:)"]
+        sh2ox["rt_domain(did)%sh2ox(:,:,:)"]
+        stc["rt_domain(did)%stc(:,:,:)"]
+        infxsrt["rt_domain(did)%infxsrt"]
+        soldrain["rt_domain(did)%soldrain"]
+        sfchead["rt_domain(did)%overland%control%<br/>surface_water_head_lsm"]
+    end
+
+    subgraph export_state["NUOPC export state"]
+        direction TB
+        export_smc["smc<br/>smc1, smc2, smc3, smc4"]
+        export_sh2ox["slc<br/>sh2ox1, sh2ox2, sh2ox3, sh2ox4"]
+        export_sfchead["sfchead"]
+    end
+
+    import_smc --> smc
+    import_sh2ox --> sh2ox
+    import_stc --> stc
+    import_infxsrt --> infxsrt
+    import_soldrain --> soldrain
+
+    smc --> export_smc
+    sh2ox --> export_sh2ox
+    sfchead --> export_sfchead
+```
+
+## CESM
+
+```mermaid
+graph LR
+    subgraph cesm["CESM / CTSM"]
+        direction TB
+        subgraph cesm_exports["Export variables"]
+            cesm_stc["inst_soil_temperature<br/>(4 soil layers)"]
+            cesm_smc["inst_total_soil_moisture_content<br/>(4 soil layers)"]
+            cesm_slc["inst_soil_moisture_content<br/>(4 soil layers)"]
+            cesm_infxsrt["Flrl_rofinfl_excess_sur"]
+            cesm_soldrain["Flrl_rofsub"]
+        end
+
+        subgraph cesm_imports["Import variables"]
+            cesm_flood["Flrr_flood"]
+            cesm_volrmch["Flrr_volrmch"]
+        end
+    end
+
+    subgraph wrf_hydro_exchange["WRF-Hydro exchange fields"]
+        direction TB
+        wrf_stc["stc"]
+        wrf_smc["smc"]
+        wrf_slc["slc"]
+        wrf_infxsrt["infxsrt"]
+        wrf_soldrain["soldrain"]
+        wrf_sfchead["sfchead"]
+        wrf_volrmch["volrmch"]
+    end
+
+    cesm_stc --> wrf_stc
+    cesm_smc --> wrf_smc
+    cesm_slc --> wrf_slc
+    cesm_infxsrt --> wrf_infxsrt
+    cesm_soldrain --> wrf_soldrain
+
+    wrf_sfchead --> cesm_flood
+    wrf_volrmch --> cesm_volrmch
+```
