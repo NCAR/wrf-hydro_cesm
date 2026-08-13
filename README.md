@@ -37,6 +37,22 @@ $ ./bin/git-fleximod update
 ```
 
 ## Setup, Build, Run
+
+### Jupyter in Docker
+
+To open `src/notebooks/build.ipynb` in a container with the development compiler
+stack, run these commands from the repository root:
+
+```bash
+make docker-notebook-build
+make docker-notebook
+```
+
+Open the localhost URL with the token printed in the terminal. Notebook edits
+are saved in your mounted checkout. The notebook's full case build still
+requires Derecho; see [Docker notebook instructions](src/docker/README.md)
+for the local development capabilities and Docker commands.
+
 ### Quick Start
 The `Quick Start` instructions shows how the `Makefile` is used condense the
   steps for setup, building, and running.
