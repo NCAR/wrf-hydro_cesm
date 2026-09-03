@@ -4,6 +4,8 @@ runblddir=$(SCRATCH)/hydro-test
 # compiler=intel
 compiler=gnu
 
+image=cesm-wrf-hydro
+
 all: setup
 
 help:
@@ -57,6 +59,19 @@ setup-first-recommended:
 	cd $(dir) && \
 	./xmlchange STOP_OPTION=nhours,STOP_N=1,ROF_NCPL=24 && \
 	./case.setup
+
+docker-build:
+	make -C src/docker build
+docker:
+	docker run --rm -it \
+	-v "$(CURDIR)/:/src" \
+	-w /src \
+	$(image)
+# the container is removed on exit by --rm, this removes the image
+docker-clean:
+	-docker rm -f $$(docker ps -aq --filter ancestor=$(image))
+	-docker rmi -f $(image)
+
 
 clean:
 	rm -rf $(dir) $(testdir) $(runblddir)
