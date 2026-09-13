@@ -4,6 +4,9 @@ runblddir=$(SCRATCH)/hydro-test
 # compiler=intel
 compiler=gnu
 
+notebook_file=src/notebooks/build.ipynb
+notebook_env=wrf-hydro-nb
+
 all: setup
 
 help:
@@ -57,6 +60,23 @@ setup-first-recommended:
 	cd $(dir) && \
 	./xmlchange STOP_OPTION=nhours,STOP_N=1,ROF_NCPL=24 && \
 	./case.setup
+
+# Local development only. On NCAR JupyterHub the hub already serves the
+# notebook, just open $(notebook_file) there instead of running this.
+notebook:
+	@command -v jupyter >/dev/null || { \
+	  echo "jupyter is not on PATH."; \
+	  echo "One-time setup:  make notebook-env"; \
+	  echo "then:            conda activate $(notebook_env) && make notebook"; \
+	  exit 1; \
+	}
+	jupyter lab $(notebook_file)
+
+notebook-env:
+	conda create -y -n $(notebook_env) python=3.12 jupyterlab
+	@echo "Created '$(notebook_env)'. Now run:"
+	@echo "  conda activate $(notebook_env) && make notebook"
+
 
 clean:
 	rm -rf $(dir) $(testdir) $(runblddir)
