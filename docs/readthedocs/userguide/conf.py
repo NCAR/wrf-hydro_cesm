@@ -10,10 +10,15 @@ release = "0.1"
 extensions = [
     'sphinx_rtd_theme',
     'sphinx_copybutton',
+    'nbsphinx',
 ]
 
 copybutton_prompt_text = r"\$ "
 copybutton_prompt_is_regexp = True
+
+# The notebooks require Derecho/PBS and /glade input data to run, so render
+# their already-saved outputs instead of re-executing them during the build.
+nbsphinx_execute = 'never'
 
 templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]

@@ -13,3 +13,10 @@ This is the user guide for the WRF-Hydro / CTSM coupled model. It is built with
    build
    run
    analyze
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Notebooks
+
+   notebooks/build
+   notebooks/analysis
