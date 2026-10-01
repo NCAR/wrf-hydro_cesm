@@ -8,8 +8,8 @@ build:
     python: "3.12"
 
 sphinx:
-  configuration: doc/readthedocs/userguide/conf.py
+  configuration: docs/readthedocs/userguide/conf.py
 
 python:
   install:
-    - requirements: doc/readthedocs/requirements.txt
+    - requirements: docs/readthedocs/requirements.txt
