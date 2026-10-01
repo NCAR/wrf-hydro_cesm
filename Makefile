@@ -4,6 +4,14 @@ runblddir=$(SCRATCH)/hydro-test
 # compiler=intel
 compiler=gnu
 
+# grid resolution:
+#   utbear (Utah Bear River subset) or
+#   nldas2_rnldas2_mnldas2 (NLDAS-2 CONUS)
+grid=utbear
+
+# user_nl_clm additions appended by setup (20-layer soil)
+case_files=$(PWD)/case_files
+
 notebook_file=src/notebooks/build.ipynb
 notebook_env=wrf-hydro-nb
 image=cesm-wrf-hydro
@@ -24,10 +32,11 @@ setup:
 	  --mach derecho \
 	  --compiler $(compiler) \
 	  --compset I2000Ctsm50NwpSpNldasWRFHydro \
-	  --res nldas2_rnldas2_mnldas2 \
+	  --res $(grid) \
 	  --run-unsupported \
 	  --project NWCA0002 \
 	  --pesfile $(PWD)/src/ctsm/components/wrfhydro/src/CPL/CESM_cpl/cime_config/config_pes.xml
+	cat $(case_files)/user_nl_clm >> $(dir)/user_nl_clm
 	cd $(dir) && \
 	./xmlchange STOP_OPTION=nhours,STOP_N=1,ROF_NCPL=24 && \
 	./case.setup
@@ -40,8 +49,9 @@ build:
 	@echo "$$ cd $(dir) ; ./case.build --verbose"
 
 run:
-	cd $(dir) && \
-	./case.submit
+	@echo "To run submit PBS job or run interactivally"
+	@echo "$$ cd $(dir) && ./case.submit "
+	@echo "$$ cd $(dir) && ./case.submit --no-batch"
 
 ls:
 	ls $(dir)
@@ -49,7 +59,7 @@ ls:
 info:
 	@echo "--- wrfhydro ---"
 	./src/ctsm/cime/scripts/query_config --compsets | grep WRFHydro
-	./src/ctsm/cime/scripts/query_config --grids | egrep 'wrfhydro'
+	./src/ctsm/cime/scripts/query_config --grids | egrep 'wrfhydro|utbear'
 
 # first case, was recommended
 setup-first-recommended:
@@ -122,6 +132,8 @@ notebook-env:
 	@echo "Created '$(notebook_env)'. Now run:"
 	@echo "  conda activate $(notebook_env) && make notebook"
 
+ml:
+	@echo "$$ ml use $(PWD)/modules; ml purge; ml gnu-cesm"
 
 clean:
 	rm -rf $(dir) $(testdir) $(runblddir)
